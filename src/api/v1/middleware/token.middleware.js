@@ -1,13 +1,18 @@
 const tokenService = require('../services/token.service');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 module.exports = {
-    verifyToken(req, res, next){
-        const { token } = req.body;
-       try {
-            tokenService.verifyToken(token);
-            return next();
-       } catch (error) {
-            res.status(401).json({ message: 'Token inválido' });
-       }
+    async verifyToken(req, res, next){
+          const auth = req.headers["authorization"];
+          if(!auth) return res.status(401).json({ message: 'Token não informado' });
+          const token = auth.split(' ')[1];
+          try {
+               await tokenService.verifyToken(token)
+               req.token = token;
+               next();
+          } catch (error) {
+               res.status(401).json({ message: 'Token inválido' });
+          }
     }
 }

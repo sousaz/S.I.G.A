@@ -7,9 +7,9 @@ module.exports = {
         if (!username || !password)
             return res.status(400).json({error: 'username e senha são obrigatórios'});
         const user = await authService.login(username, password);
-        const token = await authToken.generateToken(user.id, "20s");
         if (!user)
             return res.status(401).json({error: 'Usuário ou senha inválidos'});
+        const token = await authToken.generateToken(user.id, "1d");
         return res.status(200).json({ user, token });
     }
 }
