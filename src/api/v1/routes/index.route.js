@@ -1,10 +1,10 @@
 const authRoutes = require('./auth.route');
+const guardHouseRoutes = require('./guardHouse.route');
 const express = require('express');
 const router = express.Router();
-const tokenMiddleware = require('../middleware/token.middleware');
-const roleMiddleware = require('../middleware/role.middleware');
 
-router.use(authRoutes);
+router.use(authRoutes)
+router.use(guardHouseRoutes)
 
 
 
