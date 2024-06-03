@@ -1,4 +1,5 @@
 const degpService = require('../services/degp.service');
+const accessService = require('../services/accessHistory.service');
 
 module.exports = {
     async create(req, res) {
@@ -43,6 +44,15 @@ module.exports = {
             return res.status(200).json({ students });
         } catch (error) {
             return res.status(500).json({ error: 'Erro ao listar alunos', message: error.message });
+        }
+    },
+
+    async listAccess(req, res) {
+        try {
+            const access = await accessService.listEmployeeAccess();
+            return res.status(200).json({ access });
+        } catch (error) {
+            return res.status(500).json({ error: 'Erro ao listar acessos', message: error.message });
         }
     }
 }

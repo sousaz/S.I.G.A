@@ -8,4 +8,6 @@ router.route("/degp")
     .put(tokenMiddleware.verifyToken, degpController.update)
     .get(tokenMiddleware.verifyToken, degpController.list);
 
+router.route("/degp/access").get(tokenMiddleware.verifyToken, degpController.listAccess)
+
 module.exports = router;
