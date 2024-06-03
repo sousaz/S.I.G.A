@@ -1,4 +1,5 @@
 const raciService = require('../services/raci.service');
+const accessService = require('../services/accessHistory.service');
 
 module.exports = {
     async create(req, res) {
@@ -41,6 +42,15 @@ module.exports = {
         try {
             const students = await raciService.list();
             return res.status(200).json({ students });
+        } catch (error) {
+            return res.status(500).json({ error: 'Erro ao listar alunos', message: error.message });
+        }
+    },
+
+    async listAccess(req, res) {
+        try {
+            const access = await accessService.listStudentsAccess();
+            return res.status(200).json({ access });
         } catch (error) {
             return res.status(500).json({ error: 'Erro ao listar alunos', message: error.message });
         }
