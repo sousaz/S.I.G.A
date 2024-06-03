@@ -42,6 +42,50 @@ module.exports = {
             { $match: { 'user.role': 'VISITANTE' }},
             { $project: { 'user.password': 0 }}
         ])
-    }
+    },
+
+    async listAllAccess(){
+        return await AccessHistory.aggregate([
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: '_id',
+                    as: 'user'
+                }
+            },
+            { $project: { 'user.password': 0 }}
+        ])
+    },
+
+    async listStudentsAccess(){
+        return await AccessHistory.aggregate([
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: '_id',
+                    as: 'user'
+                }
+            },
+            { $match: { 'user.role': 'ALUNO' }},
+            { $project: { 'user.password': 0 }}
+        ])
+    },
+
+    async listEmployeeAccess(){
+        return await AccessHistory.aggregate([
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: '_id',
+                    as: 'user'
+                }
+            },
+            { $match: { 'user.role': 'ALUNO' }},
+            { $project: { 'user.password': 0 }}
+        ])
+    },
     
 }
