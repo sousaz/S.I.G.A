@@ -1,0 +1,98 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "siga" ,
+        "description": "siga documentation",
+        "version": "1.0.0"
+    },
+    "servers":[
+        {
+            "url": "http://localhost:3000/api/v1",
+            "description": "endereço da api"
+        }
+    ],
+    "paths":{
+        "/login":{
+            "post":{
+                "summary": "login de usuário",
+                "description": "Essa rota é responsável por realizar o login do usuário",
+                "tags":["autenticação"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                       "description":"Tudo OK",
+                       "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/schemas/Uservalidation"
+                                }
+                            }
+                       }
+                    },
+                    "400":{
+                        "description":"username e senha obrigatórios"
+                    },
+                    "401":{
+                        "description":"usuário ou senha inválidos"
+                    },
+                    "500":{
+                        "description":"Erro ao gerar token"
+                    }
+                }
+            }
+        }
+    },
+    "components":{
+        "schemas":{
+            "User":{
+               "type": "object",
+               "properties":{
+                "username":{
+                    "type": "string"
+                },
+                "password":{
+                    "type": "string"
+                }
+               }
+            },
+            "Uservalidation":{
+                "type":"object",
+                "properties":{
+                "user":{
+                    "type":"object",
+                    "properties":{
+                        "username":{
+                            "type":"string"
+                        },
+                        "id":{
+                            "type":"string"
+                        },
+                        "role":{
+                            "type":"string"
+                        }
+                    }
+                },
+                "token":{
+                    "type":"string"
+                }
+               }
+            } 
+        },
+        "securitySchemes":{
+            "bearerAuth":{
+                "type":"http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+
+    }
+}
