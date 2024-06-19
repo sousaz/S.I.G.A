@@ -1,4 +1,4 @@
-const app = require("./src/app")
+const app = require("./app")
 const connect = require("./src/config/mongo")
 
 const port = process.env.PORT || 3000
