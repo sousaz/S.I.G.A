@@ -20,21 +20,30 @@ export default {
   },
   methods: {
     async onDetect(detectedCodes: object): Promise<void> {
-      const rawValue = detectedCodes[0].rawValue
-      const regex = /{id:"(.+)",token:"(.+)"}/
-      const matches = rawValue.match(regex)
+      try {
+        const rawValue = detectedCodes[0].rawValue
+        const regex = /{id:"(.+)",token:"(.+)"}/
+        const matches = rawValue.match(regex)
 
-      const user = {
-        id: matches[1],
-        token: matches[2]
+        const user = {
+          id: matches[1],
+          token: matches[2]
+        }
+
+        if (this.online) await this.sendDataToServer(user)
+        else await this.saveDataLocally(user)
+
+        const audio = new Audio(beep)
+        audio.play()
+      } catch (error) {
+        console.log(error)
+        const audio = new Audio(beepWarning)
+        audio.play()
+      } finally {
+        this.paused = true
+        await this.timeOut(100)
+        this.paused = false
       }
-
-      if (this.online) await this.sendDataToServer(user)
-      else this.saveDataLocally(user)
-
-      this.paused = true
-      await this.timeOut(100)
-      this.paused = false
     },
 
     timeOut(ms: number) {
@@ -44,30 +53,30 @@ export default {
     },
 
     async sendDataToServer(user: { id: string; token: string }): Promise<void> {
-      await fetch('http://localhost:3000/api/v1/accessEntry', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userId: user.id,
-          token: user.token
+      try {
+        await fetch('http://localhost:3000/api/v1/accessEntry', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: user.id,
+            token: user.token
+          })
+        }).then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to send data to the server')
+          }
+          return response.json()
         })
-      }).then((response) => {
-        if (!response.ok) {
-          const audio = new Audio(beepWarning)
-          audio.play()
-          return
-        }
-        const audio = new Audio(beep)
-        audio.play()
-        return response.json()
-      })
+      } catch (error) {
+        throw new Error('Failed to send data to the server')
+      }
     },
 
     async saveDataLocally(user: { id: string; token: string }): void {
       await db.accessEntries.add({
-        userId: user.id,
+        id: user.id,
         token: user.token,
         timestamp: new Date()
       })
@@ -76,12 +85,15 @@ export default {
     async syncData() {
       const entries = await db.accessEntries.toArray()
       entries.forEach(async (entry) => {
-        await this.sendDataToServer({
-          userId: entry.userId,
-          token: entry.token
-        })
-
-        await db.accessEntries.delete(entry.userId)
+        try {
+          await this.sendDataToServer({
+            id: entry.id,
+            token: entry.token
+          })
+          await db.accessEntries.delete(entry.id)
+        } catch (error) {
+          throw new Error('Failed to sync data to the server')
+        }
       })
     },
 
