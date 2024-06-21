@@ -1,6 +1,21 @@
-import Dexie from 'dexie'
+import Dexie, { Table } from 'dexie'
 
-export const db = new Dexie('AccessDatabase')
-db.version(1).stores({
-  accessEntries: 'id++, userId, token, timestamp'
-})
+interface AccessEntry {
+  id?: number
+  userId: string
+  token: string
+  timestamp: Date
+}
+
+class AccessDatabase extends Dexie {
+  accessEntries!: Table<AccessEntry>
+
+  constructor() {
+    super('AccessDatabase')
+    this.version(1).stores({
+      accessEntries: '++id, userId, token, timestamp'
+    })
+  }
+}
+
+export const db = new AccessDatabase();

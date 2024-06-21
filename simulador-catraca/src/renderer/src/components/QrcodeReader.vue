@@ -1,7 +1,7 @@
 <script lang="ts">
 import beep from '../assets/infobleep.mp3'
 import beepWarning from '../assets/beep-warning.mp3'
-import { db } from '../config/dexieConfig.ts'
+import { db } from '../config/dexieConfig'
 export default {
   name: 'QrcodeReader',
   data() {
@@ -74,9 +74,9 @@ export default {
       }
     },
 
-    async saveDataLocally(user: { id: string; token: string }): void {
+    async saveDataLocally(user: { id: string; token: string }): Promise<void> {
       await db.accessEntries.add({
-        id: user.id,
+        userId: user.id,
         token: user.token,
         timestamp: new Date()
       })
@@ -87,7 +87,7 @@ export default {
       entries.forEach(async (entry) => {
         try {
           await this.sendDataToServer({
-            id: entry.id,
+            id: entry.userId,
             token: entry.token
           })
           await db.accessEntries.delete(entry.id)
