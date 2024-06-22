@@ -13,16 +13,17 @@ module.exports = {
         return await user.save();
     },
 
-    async update(id, username, name, cpf) {
-        const user = await User.findById(id);
-        if (!user) throw new Error('Usuário não encontrado');
-        user.username = username;
-        user.name = name;
-        user.cpf = cpf;
-        return await user.save();
+    async update(id, username, name, cpf, role) {
+        const user = await User.findById(id)
+        if (!user) throw new Error('Usuário não encontrado')
+        user.username = username
+        user.name = name
+        user.cpf = cpf
+        user.role = role
+        return await user.save()
     },
 
     async list() {
-        return await User.find({password: 0});
+        return await User.find({ role: ["DEGP", "RACI"] }, { password: 0 });
     }
 }

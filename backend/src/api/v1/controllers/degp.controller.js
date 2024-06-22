@@ -8,21 +8,21 @@ module.exports = {
             return res.status(400).json({error: 'username, nome, cpf e senha são obrigatórios'});
         try {
             await degpService.create(username, name, cpf, password);
-            return res.status(201).json({ message: "Aluno criado com sucesso" });
+            return res.status(201).json({ message: "Servidor  criado com sucesso" });
         } catch (error) {
-            return res.status(500).json({ error: 'Erro ao criar aluno', message: error.message });
+            return res.status(500).json({ error: 'Erro ao criar servidor', message: error.message });
         }
     },
 
     async delete(req, res) {
         const { id } = req.body;
         if (!id)
-            return res.status(400).json({error: 'username é obrigatório'});
+            return res.status(400).json({error: 'id é obrigatório'});
         try {
             await degpService.delete(id);
-            return res.status(204).json({ message: "Aluno deletado com sucesso" });
+            return res.status(204).json({ message: "Servidor deletado com sucesso" });
         } catch (error) {
-            return res.status(500).json({ error: 'Erro ao deletar aluno', message: error.message });
+            return res.status(500).json({ error: 'Erro ao deletar servidor' });
         }
     },
 
@@ -31,19 +31,19 @@ module.exports = {
         if (!id || !username || !name || !cpf )
             return res.status(400).json({error: 'id, username, nome, cpf e senha são obrigatórios'});
         try {
-            await raciService.update(id, username, name, cpf);
-            return res.status(200).json({ message: "Aluno atualizado com sucesso" });
+            await degpService.update(id, username, name, cpf);
+            return res.status(200).json({ message: "Servidor atualizado com sucesso" });
         } catch (error) {
-            return res.status(500).json({ error: 'Erro ao atualizar aluno', message: error.message });
+            return res.status(500).json({ error: 'Erro ao atualizar servidor' });
         }
     },
 
     async list(req, res) {
         try {
-            const students = await degpService.list();
-            return res.status(200).json({ students });
+            const employees = await degpService.list();
+            return res.status(200).json({ employees });
         } catch (error) {
-            return res.status(500).json({ error: 'Erro ao listar alunos', message: error.message });
+            return res.status(500).json({ error: 'Erro ao listar servidores', message: error.message });
         }
     },
 

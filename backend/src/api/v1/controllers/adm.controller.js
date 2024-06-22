@@ -16,7 +16,7 @@ module.exports = {
     async delete(req, res) {
         const { id } = req.body;
         if (!id)
-            return res.status(400).json({error: 'username é obrigatório'});
+            return res.status(400).json({error: 'id é obrigatório'});
         try {
             await admService.delete(id);
             return res.status(204).json({ message: "Deletado com sucesso" });
