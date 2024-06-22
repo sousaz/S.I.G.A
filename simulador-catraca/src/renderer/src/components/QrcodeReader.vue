@@ -27,7 +27,8 @@ export default {
 
         const user = {
           id: matches[1],
-          token: matches[2]
+          token: matches[2],
+          timestamp: null
         }
 
         if (this.online) await this.sendDataToServer(user)
@@ -52,16 +53,17 @@ export default {
       })
     },
 
-    async sendDataToServer(user: { id: string; token: string }): Promise<void> {
+    async sendDataToServer(user: { id: string; token: string, timestamp: Date }): Promise<void> {
       try {
         await fetch('http://localhost:3000/api/v1/accessEntry', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${user.token}`
           },
           body: JSON.stringify({
             userId: user.id,
-            token: user.token
+            timestamp: user.timestamp || null
           })
         }).then((response) => {
           if (!response.ok) {
@@ -78,7 +80,7 @@ export default {
       await db.accessEntries.add({
         userId: user.id,
         token: user.token,
-        timestamp: new Date()
+        timestamp: Date.now()
       })
     },
 
@@ -88,7 +90,8 @@ export default {
         try {
           await this.sendDataToServer({
             id: entry.userId,
-            token: entry.token
+            token: entry.token,
+            timestamp: entry.timestamp
           })
           await db.accessEntries.delete(entry.id)
         } catch (error) {
