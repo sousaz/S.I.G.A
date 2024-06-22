@@ -19,7 +19,7 @@ module.exports = {
         const result = await guardHouseService.removeTemporaryAccess(id)
         if(!result)
             return res.status(500).json({ message: "Erro ao remover acesso temporário" })
-        return res.status(200).json({ message: "Acesso temporário remover com sucesso" })
+        return res.status(204).json({ message: "Acesso temporário remover com sucesso" })
     },
 
     async listTemporaryAccess(req, res){
