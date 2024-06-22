@@ -17,14 +17,11 @@ module.exports = {
     },
 
     async accessEntry(req, res){
-        const { userId, token } = req.body
-        if(!userId || !token)
-            return res.status(400).json({error: 'userId e token são obrigatórios'});
+        const { userId } = req.body
+        if(!userId)
+            return res.status(400).json({error: 'userId é obrigatório'});
         try {
-            await Promise.all([
-                tokenService.verifyToken(token),
-                accessHistoryService.createNewAccess(userId)
-            ])
+            await accessHistoryService.createNewAccess(userId)
             res.status(200).json({ message: "Acesso registrado com sucesso" })
         } catch (error) {
             res.status(401).json({ message: 'Acesso negado' });
