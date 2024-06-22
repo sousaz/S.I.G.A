@@ -1,9 +1,9 @@
 const AccessHistory = require('../models/AccessHistory');
 
 module.exports = {
-    async createNewAccess(userId){
+    async createNewAccess(userId, timestamp){
         const access = await AccessHistory.findOne({ user: userId }).sort({ date: -1 });
-        const newAccess = new AccessHistory({ date: Date.now(), isinside: true, user: userId })
+        const newAccess = new AccessHistory({ date: timestamp || Date.now(), isinside: true, user: userId })
         if(!access)
             return await newAccess.save();
         newAccess.isinside = !access.isinside;
