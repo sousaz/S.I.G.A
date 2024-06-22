@@ -59,7 +59,12 @@
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/AccessEntry"
+                                "type":"object",
+                                "properties":{
+                                    "userId":{
+                                        "type":"string"
+                                    }
+                                }
                             }
                         }
                     }
@@ -439,7 +444,7 @@
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/UserRACIDel"
+                                "$ref": "#/components/schemas/OnlyUserId"
                             }
                         }
                     }
@@ -722,7 +727,7 @@
                     }
                 }
             },
-            "UserRACIDel":{
+            "OnlyUserId":{
                 "type": "object",
                 "properties":{
                     "id":{
