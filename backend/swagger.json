@@ -48,8 +48,504 @@
                     }
                 }
             }
+        },
+        "/accessEntry":{
+            "post":{
+                "summary": "entrada de acesso",
+                "description": "Essa rota é responsável por registrar a entrada/saída de um usuário",
+                "tags":["autenticação"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/AccessEntry"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Acesso registrado com sucesso"
+                    },
+                    "400":{
+                        "description":"userId e token são obrigatório"
+                    },
+                    "401":{
+                        "description":"Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao registrar entrada"
+                    }
+                }
+            }
+        },
+        "/adm":{
+            "post":{
+                "summary": "administrador",
+                "description": "Essa rota é responsável por realizar o cadastramento do RACI e do DEGP",
+                "tags":["adm"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/UserAdm"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "Criado com sucesso"
+                    },
+                    "400":{
+                        "description":"username, nome, cpf e senha e role são obrigatórios"
+                    },
+                    "500":{
+                        "description":"Erro ao criar"
+                    },
+                    "401":{
+                        "description":"Acesso negado, token inválido"
+                    }
+                }
+            }, 
+            "delete":{
+                "summary":"Método de deletar do adm",
+                "description": "Essa rota é responsável por deletar o cadastro do RACI",
+                "tags":["adm"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/UserAdmDel"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "204":{
+                        "description": "Deletado com sucesso"
+                    },
+                    "400":{
+                        "description":"id é obrigatório"
+                    },
+                    "401":{
+                        "description":"Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao deletar"
+                    }
+                }
+
+            },
+            "put":{
+                "summary":"Método de atualizar as informações do RACI e DEGP",
+                "description": "Essa rota é responsável por atualizar o cadastro e/ou dar permissões para RACI e DEGP",
+                "tags":["adm"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/UserAdmPut"
+                            }
+                        }
+                    }
+                }, 
+                "responses":{
+                    "200":{
+                        "description": "Atualizado com sucesso"
+                    },
+                    "400":{
+                        "description": "id, username, nome, cpf, senha e role são obrigatórios"
+                    }, 
+                    "401":{
+                        "description":"Acesso negado, token inválido"
+                    }, 
+                    "500":{
+                        "description": "Erro ao atualizar"
+                    }
+                }
+            },
+            "get":{
+                "summary":"Método para listar os servidores do RACI e do DEGP",
+                "description": "Essa rota é reponsável por listar os  servidores do RACI e do DEGP",
+                "tags":["adm"],
+                "security": [{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/UserAdmAccess"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "description": "Erro ao listar os usuários"
+                    },
+                    "401":{
+                        "description":"Acesso negado, token inválido"
+                    }
+                }
+            }
+        },
+        "/degp":{
+            "post":{
+                "summary": "criação de DEGP",
+                "description": "Essa rota é responsável por realizar o cadastramento de servidores",
+                "tags":["degp"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema": {
+                                "$ref": "#/components/schemas/UserDEGP"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description":"Servidor criado com sucesso"
+                    },
+                    "400":{
+                        "description":"username, nome, cpf e senha são obrigatórios"
+                    },
+                    "401":{
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao criar servidor"
+                    }
+                }
+            },
+            "delete":{
+                "summary": "Método de deletar do DEGP",
+                "description": "Essa rota é responsável por deletar o cadastro de servidores",
+                "tags":["degp"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema": {
+                                "$ref": "#/components/schemas/UserDEGPDel"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "204":{
+                        "description":"Servidor deletado com sucesso"
+                    },
+                    "400":{
+                        "description":"id é obrigatório"
+                    },
+                    "401":{
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao deletar servidor"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Método de atualizar (put) do DEGP",
+                "description": "Essa rota é responsável por atualizar o cadastro de servidores",
+                "tags": ["degp"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody":{
+                    "content": {
+                        "application/json" :{
+                            "schema":{
+                                "$ref": "#/components/schemas/UserDEGPPut"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Servidor atualizado com sucesso"
+                    },
+                    "400":{
+                        "description":"id, username, nome, cpf e senha são obrigatórios"
+                    },
+                    "401":{
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao atualizar servidor"
+                    }
+                }
+            },
+            "get":{
+                "summary":"Método para listar os servidores do DEGP",
+                "description": "Essa rota é reponsável por listar os  servidores do DEGP",
+                "tags":["degp"],
+                "security": [{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/UserDEGPAccess"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "description": "Erro ao listar os servidores"
+                    },
+                    "401":{
+                        "description":"Acesso negado, token inválido"
+                    }
+                }
+            } 
+        },
+        "/temporaryAccess":{
+            "post":{
+                "summary": "criar acesso temporário",
+                "description": "Essa rota é responsável por criar um acesso temporário",
+                "tags": ["segurança da guarita"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AccessEntry"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201": {
+                        "description": "Acesso temporário criado com sucesso"
+                    },
+                    "400": {
+                        "description": "name e cpf são obrigatórios"
+                    },
+                    "401": {
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro ao criar acesso temporário"
+                    }
+                }
+            },
+            "delete":{
+                "summary": "Registrar saída do visitante",
+                "description": "Essa rota é responsável por remover um acesso temporário",
+                "tags": ["segurança da guarita"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "$ref": "#/components/schemas/UserAdmDel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Acesso temporário removido com sucesso"
+                    },
+                    "400": {
+                        "description": "id é obrigatório"
+                    },
+                    "401": {
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro ao remover acesso temporário"
+                    }
+                }
+            },
+            "get":{
+                "summary": "listar acessos temporários",
+                "description": "Essa rota é responsável por listar os acessos temporários",
+                "tags": ["segurança da guarita"],
+                "security": [{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/Access"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro ao listar acessos temporarios"
+                    }
+                }
+            }
+        },
+        "/raci":{
+            "post":{       
+                "summary": "criação de RACI",
+                "description": "Essa rota é responsável por realizar o cadastramento de alunos",
+                "tags":["raci"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody": {
+                    "content": {
+                         "application/json":{
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRACI"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description":"Aluno criado com sucesso"
+                    },
+                    "400":{
+                        "description":"username, nome, cpf, senha e curso são obrigatórios"
+                    },
+                    "401":{
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao criar aluno"
+                    }
+                } 
+            },
+            "delete":{
+                "summary": "Método de deletar do raci",
+                "description": "Essa rota é responsável por deletar o cadastro de alunos",
+                "tags":["raci"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/UserRACIDel"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "204":{
+                        "description":"Aluno deletado com sucesso"
+                    },
+                    "400":{
+                        "description":"id é obrigatório"
+                    },
+                    "401":{
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao deletar aluno"
+                    }
+                }
+            },
+            "put":{
+                "summary": "Método de atualizar (put) do RACI",
+                "description": "Essa rota é responsável por atualizar o cadastro de alunos",
+                "tags": ["raci"],
+                "security": [{"bearerAuth":[]}],
+                "requestBody":{
+                "content": {
+                    "application/json" :{
+                        "schema":{
+                        "$ref": "#/components/schemas/UserRACIPut"
+                        }
+                    }
+                }
+            },
+            "responses":{
+                    "200":{
+                        "description":"Aluno atualizado com sucesso"
+                    },
+                    "400":{
+                        "description":"id, username, nome, cpf, senha e curso são obrigatórios"
+                    },
+                    "401":{
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao atualizar aluno"
+                    }
+                }
+            },
+            "get":{
+                "summary": "Método para listar os alunos pelo RACI",
+                "description": "Essa rota é reponsável por listar os  alunos do RACI",
+                "tags":["raci"],
+                "security": [{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/UserRACIAccess"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro ao listar alunos"
+                    }
+                }
+            }
+        },
+        "/manager":{
+            "get":{
+                "summary": "listar acessos gerais",
+                "description": "Essa rota é responsável por listar os acessos de todos os usuários",
+                "tags": ["gestão"],
+                "security": [{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/Manager"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro ao listar acessos"
+                    }
+                }
+            }
         }
-    },
+    },    
     "components":{
         "schemas":{
             "User":{
@@ -84,7 +580,286 @@
                     "type":"string"
                 }
                }
-            } 
+            },
+            "AccessEntry":{
+                "type":"object",
+                "properties":{
+                    "name":{
+                        "type":"string"
+                    },
+                    "cpf":{
+                        "type":"string"
+                    }
+                }
+            },
+            "UserAdm":{
+                "type":"object",
+                "properties":{
+                    "username":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "cpf":{
+                        "type":"string"
+                    }, 
+                    "password":{
+                        "type":"string"
+                    },
+                    "role":{
+                        "type":"string"
+                    }
+                }
+            },
+            "UserAdmDel":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    }
+                }
+            },
+            "UserAdmPut":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type": "string"
+                    },
+                    "username":{
+                        "type": "string"
+                    },
+                    "name":{
+                        "type": "string"
+                    },
+                    "cpf":{
+                        "type": "string"
+                    },
+                    "role":{
+                        "type": "string"
+                    }
+                }
+            },
+            "UserDEGP":{
+                "type": "object",
+                "properties":{
+                    "username":{
+                        "type": "string"
+                    },
+                    "name":{
+                        "type": "string"
+                    },
+                    "cpf":{
+                        "type": "string"
+                    },
+                    "password":{
+                        "type":"string"
+                    }
+                }
+            },
+            "UserDEGPDel":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type": "string"
+                    }
+                }
+            },
+            "UserDEGPPut":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type": "string"
+                    },
+                    "username":{
+                        "type": "string"
+                    },
+                    "name":{
+                        "type": "string"
+                    },
+                    "cpf":{
+                        "type": "string"
+                    }
+                }
+            },
+            "UserDEGPAccess":{
+                "type" : "object",
+                "properties":{
+                    "username":{
+                        "type": "string"
+                    },
+                    "name":{
+                        "type": "string"
+                    },
+                    "cpf":{
+                        "type": "string"
+                    },
+                    "password":{
+                        "type":"string"
+                    },
+                    "course": {
+                        "type": "string"
+                    }
+                }
+            },      
+            "UserRACI": {
+                "type": "object",
+                "properties":{
+                    "username":{
+                        "type": "string"
+                    },
+                    "name":{
+                        "type": "string"
+                    },
+                    "cpf":{
+                        "type": "string"
+                    },
+                    "password":{
+                        "type":"string"
+                    },
+                    "course": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserRACIDel":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type": "string"
+                    }
+                }
+            },
+            "UserRACIPut":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type": "string"
+                    },
+                    "username":{
+                        "type": "string"
+                    },
+                    "name":{
+                        "type": "string"
+                    },
+                    "cpf":{
+                        "type": "string"
+                    },
+                    "course": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserRACIAccess":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "name":{
+                        "type": "string"
+                    },
+                    "cpf":{
+                        "type": "string"
+                    },
+                    "role":{
+                        "type": "string"
+                    }
+                }
+            },
+            "UserAdmAccess":{
+                "type":"object",
+                "properties":{
+                    "id":{
+                        "type": "string"
+                    },
+                    "username":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type": "string"
+                    },
+                    "cpf":{
+                        "type": "string"
+                    },
+                    "role":{
+                        "type": "string"
+                    }
+                }
+            },
+            "Access": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "date"
+                    },
+                    "isinside": {
+                        "type": "boolean"
+                    },
+                    "user":{
+                        "type": "object",
+                        "properties":{
+                            "_id":{
+                                "type": "string"
+                            },
+                            "username":{
+                                "type": "string"
+                            },
+                            "name":{
+                                "type": "string"
+                            },
+                            "cpf":{
+                                "type": "string"
+                            },
+                            "course": {
+                                "type": "string"
+                            },
+                            "role":{
+                                "type": "string"
+                            }
+                        }
+                    
+                    }
+                }
+            },
+            "Manager":{
+                "type": "object",
+                "properties":{
+                    "_id":{
+                        "type": "string"
+                    },
+                    "date":{
+                        "type": "date"
+                    },
+                    "isinside":{
+                        "type": "boolean"
+                    },
+                    "user":{
+                        "type": "object",
+                        "properties":{
+                            "_id":{
+                                "type": "string"
+                            },
+                            "name":{
+                                "type": "string"
+                            },
+                            "cpf":{
+                                "type": "string"
+                            },
+                            "role":{
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            
+            }
         },
         "securitySchemes":{
             "bearerAuth":{
@@ -93,6 +868,5 @@
                 "bearerFormat": "JWT"
             }
         }
-
     }
 }
