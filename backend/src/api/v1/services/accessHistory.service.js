@@ -83,7 +83,7 @@ module.exports = {
                     as: 'user'
                 }
             },
-            { $match: { 'user.role': 'ALUNO' }},
+            { $match: { 'user.role': 'SERVIDOR' }},
             { $project: { 'user.password': 0 }}
         ])
     },
