@@ -115,36 +115,6 @@
                     }
                 }
             }, 
-            "delete":{
-                "summary":"Método de deletar do adm",
-                "description": "Essa rota é responsável por deletar o cadastro do RACI",
-                "tags":["adm"],
-                "security": [{"bearerAuth":[]}],
-                "requestBody":{
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref":"#/components/schemas/UserAdmDel"
-                            }
-                        }
-                    }
-                },
-                "responses":{
-                    "204":{
-                        "description": "Deletado com sucesso"
-                    },
-                    "400":{
-                        "description":"id é obrigatório"
-                    },
-                    "401":{
-                        "description":"Acesso negado, token inválido"
-                    },
-                    "500":{
-                        "description":"Erro ao deletar"
-                    }
-                }
-
-            },
             "put":{
                 "summary":"Método de atualizar as informações do RACI e DEGP",
                 "description": "Essa rota é responsável por atualizar o cadastro e/ou dar permissões para RACI e DEGP",
@@ -202,6 +172,36 @@
                 }
             }
         },
+        "/adm/{id}":{
+            "delete":{
+                "summary":"Método de deletar do adm",
+                "description": "Essa rota é responsável por deletar o cadastro do RACI",
+                "tags":["adm"],
+                "security": [{"bearerAuth":[]}],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"id",
+                        "required":true,
+                        "description":"id do usuário"
+                    }
+                ],
+                "responses":{
+                    "204":{
+                        "description": "Deletado com sucesso"
+                    },
+                    "400":{
+                        "description":"id é obrigatório"
+                    },
+                    "401":{
+                        "description":"Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao deletar"
+                    }
+                }
+            }
+        },
         "/degp":{
             "post":{
                 "summary": "criação de DEGP",
@@ -229,35 +229,6 @@
                     },
                     "500":{
                         "description":"Erro ao criar servidor"
-                    }
-                }
-            },
-            "delete":{
-                "summary": "Método de deletar do DEGP",
-                "description": "Essa rota é responsável por deletar o cadastro de servidores",
-                "tags":["degp"],
-                "security": [{"bearerAuth":[]}],
-                "requestBody": {
-                    "content": {
-                        "application/json":{
-                            "schema": {
-                                "$ref": "#/components/schemas/UserDEGPDel"
-                            }
-                        }
-                    }
-                },
-                "responses":{
-                    "204":{
-                        "description":"Servidor deletado com sucesso"
-                    },
-                    "400":{
-                        "description":"id é obrigatório"
-                    },
-                    "401":{
-                        "description": "Acesso negado, token inválido"
-                    },
-                    "500":{
-                        "description":"Erro ao deletar servidor"
                     }
                 }
             },
@@ -318,6 +289,36 @@
                 }
             } 
         },
+        "/degp/{id}":{
+            "delete":{
+                "summary": "Método de deletar do DEGP",
+                "description": "Essa rota é responsável por deletar o cadastro de servidores",
+                "tags":["degp"],
+                "security": [{"bearerAuth":[]}],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"id",
+                        "required":true,
+                        "description":"id do usuário"
+                    }
+                ],
+                "responses":{
+                    "204":{
+                        "description":"Servidor deletado com sucesso"
+                    },
+                    "400":{
+                        "description":"id é obrigatório"
+                    },
+                    "401":{
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao deletar servidor"
+                    }
+                }
+            }
+        }, 
         "/temporaryAccess":{
             "post":{
                 "summary": "criar acesso temporário",
@@ -348,35 +349,6 @@
                     }
                 }
             },
-            "delete":{
-                "summary": "Registrar saída do visitante",
-                "description": "Essa rota é responsável por remover um acesso temporário",
-                "tags": ["segurança da guarita"],
-                "security": [{"bearerAuth":[]}],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema":{
-                                "$ref": "#/components/schemas/UserAdmDel"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "204": {
-                        "description": "Acesso temporário removido com sucesso"
-                    },
-                    "400": {
-                        "description": "id é obrigatório"
-                    },
-                    "401": {
-                        "description": "Acesso negado, token inválido"
-                    },
-                    "500": {
-                        "description": "Erro ao remover acesso temporário"
-                    }
-                }
-            },
             "get":{
                 "summary": "listar acessos temporários",
                 "description": "Essa rota é responsável por listar os acessos temporários",
@@ -401,6 +373,36 @@
                     },
                     "500": {
                         "description": "Erro ao listar acessos temporarios"
+                    }
+                }
+            }
+        },
+        "temporaryAccess/{id}":{
+            "delete":{
+                "summary": "Registrar saída do visitante",
+                "description": "Essa rota é responsável por remover um acesso temporário",
+                "tags": ["segurança da guarita"],
+                "security": [{"bearerAuth":[]}],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"id",
+                        "required":true,
+                        "description":"id do visitante"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Acesso temporário removido com sucesso"
+                    },
+                    "400": {
+                        "description": "id é obrigatório"
+                    },
+                    "401": {
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro ao remover acesso temporário"
                     }
                 }
             }
@@ -434,35 +436,6 @@
                         "description":"Erro ao criar aluno"
                     }
                 } 
-            },
-            "delete":{
-                "summary": "Método de deletar do raci",
-                "description": "Essa rota é responsável por deletar o cadastro de alunos",
-                "tags":["raci"],
-                "security": [{"bearerAuth":[]}],
-                "requestBody":{
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/OnlyUserId"
-                            }
-                        }
-                    }
-                },
-                "responses":{
-                    "204":{
-                        "description":"Aluno deletado com sucesso"
-                    },
-                    "400":{
-                        "description":"id é obrigatório"
-                    },
-                    "401":{
-                        "description": "Acesso negado, token inválido"
-                    },
-                    "500":{
-                        "description":"Erro ao deletar aluno"
-                    }
-                }
             },
             "put":{
                 "summary": "Método de atualizar (put) do RACI",
@@ -517,6 +490,36 @@
                     },
                     "500": {
                         "description": "Erro ao listar alunos"
+                    }
+                }
+            }
+        },
+        "/raci/{id}":{
+            "delete":{
+                "summary": "Método de deletar do raci",
+                "description": "Essa rota é responsável por deletar o cadastro de alunos",
+                "tags":["raci"],
+                "security": [{"bearerAuth":[]}],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"id",
+                        "required":true,
+                        "description":"id do aluno"
+                    }
+                ],
+                "responses":{
+                    "204":{
+                        "description":"Aluno deletado com sucesso"
+                    },
+                    "400":{
+                        "description":"id é obrigatório"
+                    },
+                    "401":{
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500":{
+                        "description":"Erro ao deletar aluno"
                     }
                 }
             }
