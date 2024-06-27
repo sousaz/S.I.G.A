@@ -19,7 +19,7 @@ module.exports = {
     async accessEntry(req, res){
         const { userId, timestamp } = req.body
         if(!userId)
-            return res.status(400).json({error: 'userId é obrigatório'});
+            return res.status(400).json({error: 'userId é obrigatório' });
         try {
             await accessHistoryService.createNewAccess(userId, timestamp)
             res.status(200).json({ message: "Acesso registrado com sucesso" })

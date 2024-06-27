@@ -7,7 +7,7 @@ module.exports = {
         if(!access)
             return await newAccess.save();
         newAccess.isinside = !access.isinside;
-        newAccess.date = Date.now();
+        newAccess.date = timestamp || Date.now();
         newAccess.user = userId;
         return await newAccess.save();
     },
