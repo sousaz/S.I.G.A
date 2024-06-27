@@ -9,8 +9,7 @@ module.exports = {
     async delete(id) {
         const user = await User.findById(id);
         if (!user) throw new Error('Usuário não encontrado');
-        user.role = 'INATIVO';
-        return await user.save();
+        return await user.deleteOne();
     },
 
     async update(id, username, name, cpf, role) {
@@ -24,6 +23,6 @@ module.exports = {
     },
 
     async list() {
-        return await User.find({ role: ["DEGP", "RACI"] }, { password: 0 });
+        return await User.find({ role: ["DEGP", "RACI", "GESTAO"] }, { password: 0 });
     }
 }

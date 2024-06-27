@@ -14,7 +14,7 @@ module.exports = {
     },
 
     async delete(req, res) {
-        const { id } = req.body;
+        const id = req.params.id;
         if (!id)
             return res.status(400).json({error: 'id é obrigatório'});
         try {
