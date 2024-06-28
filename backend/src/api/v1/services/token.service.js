@@ -2,9 +2,10 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 module.exports = {
-    async generateToken(userId, expiresIn){
+    async generateToken(userId, role, expiresIn){
         const payload = { 
             userId,
+            role,
         };
         return jwt.sign({ payload }, process.env.JWT_SECRET, { expiresIn: expiresIn || "1d" });
     },

@@ -10,7 +10,7 @@ module.exports = {
         const user = await authService.login(username, password);
         if (!user)
             return res.status(401).json({error: 'Usuário ou senha inválidos'});
-        const token = await tokenService.generateToken(user.id, "1d");
+        const token = await tokenService.generateToken(user.id, user.role, "1d");
         if(!token)
             return res.status(500).json({error: 'Erro ao gerar token'});
         return res.status(200).json({ user, token });
