@@ -87,7 +87,7 @@
         },
         "/adm":{
             "post":{
-                "summary": "administrador",
+                "summary": "Cadastrar RACI, DEGP e GESTÃO",
                 "description": "Essa rota é responsável por realizar o cadastramento do RACI e do DEGP",
                 "tags":["adm"],
                 "security": [{"bearerAuth":[]}],
@@ -116,8 +116,8 @@
                 }
             }, 
             "put":{
-                "summary":"Método de atualizar as informações do RACI e DEGP",
-                "description": "Essa rota é responsável por atualizar o cadastro e/ou dar permissões para RACI e DEGP",
+                "summary":"Método de atualizar as informações do RACI, DEGP e GESTÃO",
+                "description": "Essa rota é responsável por atualizar o cadastro e/ou dar permissões para RACI, DEGP e GESTÃO",
                 "tags":["adm"],
                 "security": [{"bearerAuth":[]}],
                 "requestBody":{
@@ -145,8 +145,8 @@
                 }
             },
             "get":{
-                "summary":"Método para listar os servidores do RACI e do DEGP",
-                "description": "Essa rota é reponsável por listar os  servidores do RACI e do DEGP",
+                "summary":"Método para listar os servidores do RACI, DEGP e GESTÃO",
+                "description": "Essa rota é reponsável por listar os  servidores do RACI, DEGP e da GESTÃO",
                 "tags":["adm"],
                 "security": [{"bearerAuth":[]}],
                 "responses":{
@@ -174,7 +174,7 @@
         },
         "/adm/{id}":{
             "delete":{
-                "summary":"Método de deletar do adm",
+                "summary":"Método de deletar",
                 "description": "Essa rota é responsável por deletar o cadastro do RACI",
                 "tags":["adm"],
                 "security": [{"bearerAuth":[]}],
@@ -204,7 +204,7 @@
         },
         "/degp":{
             "post":{
-                "summary": "criação de DEGP",
+                "summary": "criação de servidores",
                 "description": "Essa rota é responsável por realizar o cadastramento de servidores",
                 "tags":["degp"],
                 "security": [{"bearerAuth":[]}],
@@ -233,7 +233,7 @@
                 }
             },
             "put": {
-                "summary": "Método de atualizar (put) do DEGP",
+                "summary": "Método de atualizar",
                 "description": "Essa rota é responsável por atualizar o cadastro de servidores",
                 "tags": ["degp"],
                 "security": [{"bearerAuth":[]}],
@@ -262,8 +262,8 @@
                 }
             },
             "get":{
-                "summary":"Método para listar os servidores do DEGP",
-                "description": "Essa rota é reponsável por listar os  servidores do DEGP",
+                "summary":"Método para listar os servidores",
+                "description": "Essa rota é reponsável por listar os  servidores",
                 "tags":["degp"],
                 "security": [{"bearerAuth":[]}],
                 "responses":{
@@ -291,7 +291,7 @@
         },
         "/degp/{id}":{
             "delete":{
-                "summary": "Método de deletar do DEGP",
+                "summary": "Método de deletar",
                 "description": "Essa rota é responsável por deletar o cadastro de servidores",
                 "tags":["degp"],
                 "security": [{"bearerAuth":[]}],
@@ -319,6 +319,35 @@
                 }
             }
         }, 
+        "/degp/access":{
+            "get":{
+                "summary": "listar acessos dos servidores",
+                "description": "Essa rota é responsável por listar os acessos dos servidores",
+                "tags": ["degp"],
+                "security": [{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/EmployeesAccess"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro ao listar acessos"
+                    }
+                }
+            }
+        },
         "/temporaryAccess":{
             "post":{
                 "summary": "criar acesso temporário",
@@ -409,7 +438,7 @@
         },
         "/raci":{
             "post":{       
-                "summary": "criação de RACI",
+                "summary": "Cadastrar alunos",
                 "description": "Essa rota é responsável por realizar o cadastramento de alunos",
                 "tags":["raci"],
                 "security": [{"bearerAuth":[]}],
@@ -438,7 +467,7 @@
                 } 
             },
             "put":{
-                "summary": "Método de atualizar (put) do RACI",
+                "summary": "Método de atualizar",
                 "description": "Essa rota é responsável por atualizar o cadastro de alunos",
                 "tags": ["raci"],
                 "security": [{"bearerAuth":[]}],
@@ -467,8 +496,8 @@
                 }
             },
             "get":{
-                "summary": "Método para listar os alunos pelo RACI",
-                "description": "Essa rota é reponsável por listar os  alunos do RACI",
+                "summary": "Método para listar os alunos",
+                "description": "Essa rota é reponsável por listar os alunos",
                 "tags":["raci"],
                 "security": [{"bearerAuth":[]}],
                 "responses":{
@@ -496,7 +525,7 @@
         },
         "/raci/{id}":{
             "delete":{
-                "summary": "Método de deletar do raci",
+                "summary": "Método de deletar",
                 "description": "Essa rota é responsável por deletar o cadastro de alunos",
                 "tags":["raci"],
                 "security": [{"bearerAuth":[]}],
@@ -520,6 +549,35 @@
                     },
                     "500":{
                         "description":"Erro ao deletar aluno"
+                    }
+                }
+            }
+        },
+        "/raci/access":{
+            "get":{
+                "summary": "listar acessos dos alunos",
+                "description": "Essa rota é responsável por listar os acessos dos alunos",
+                "tags": ["raci"],
+                "security": [{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/Acesss"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acesso negado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro ao listar acessos"
                     }
                 }
             }
@@ -826,6 +884,41 @@
                                 "type": "string"
                             },
                             "course": {
+                                "type": "string"
+                            },
+                            "role":{
+                                "type": "string"
+                            }
+                        }
+                    
+                    }
+                }
+            },
+            "EmployeesAccess": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "date"
+                    },
+                    "isinside": {
+                        "type": "boolean"
+                    },
+                    "user":{
+                        "type": "object",
+                        "properties":{
+                            "_id":{
+                                "type": "string"
+                            },
+                            "username":{
+                                "type": "string"
+                            },
+                            "name":{
+                                "type": "string"
+                            },
+                            "cpf":{
                                 "type": "string"
                             },
                             "role":{
