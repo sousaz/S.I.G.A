@@ -1,4 +1,6 @@
 const guardHouseService = require('../services/guardHouse.service');
+const tokenService = require('../services/token.service');
+const { list } = require('./degp.controller');
 
 module.exports = {
     async createTemporaryAccess(req, res){
@@ -27,5 +29,23 @@ module.exports = {
         if(!listOfAccess)
             res.status(500).json({ message: "Erro ao listar acessos temporários" })
         res.status(200).json({ access: listOfAccess })
+    },
+
+    async getToken(req, res){
+        const { userId } = req.body
+        const user = await guardHouseService.getUserById(userId)
+        if(!user)
+            return res.status(500).json({ message: "Erro ao buscar usuário" })
+        const token = await tokenService.generateToken(user._id, user.role, "6h")
+        if(!token)
+            return res.status(500).json({ message: "Erro ao gerar token" })
+        return res.status(200).json({ userId: user._id, token: token })
+    },
+
+    async listVisitors(req, res){
+        const listOfVisitors = await guardHouseService.listVisitors()
+        if(!listOfVisitors)
+            return res.status(500).json({ message: "Erro ao listar visitantes" })
+        return res.status(200).json({ visitors: listOfVisitors })
     }
 }

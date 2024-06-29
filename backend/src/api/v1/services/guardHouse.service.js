@@ -4,12 +4,11 @@ const accessHistoryService = require('./accessHistory.service')
 module.exports = {
     async createTemporaryAccess(user){
         try {
-            const username = `visitante_${Date.now()}`
+            const username = `visitante_${user.cpf}`
             const userExists = await User.findOne({ name: user.name, cpf: user.cpf, role: "VISITANTE" })
             if(userExists) return false
             const newUser = new User({ username: username, name: user.name, cpf: user.cpf, role: "VISITANTE" })
-            const createdUser = await newUser.save()
-            await accessHistoryService.createTemporaryAccess(createdUser._id)
+            await newUser.save()
             return true
         } catch(error){
             console.log(error)
@@ -28,6 +27,14 @@ module.exports = {
 
     async listTemporaryAccess(){
         return await accessHistoryService.listTemporaryAccess() || false
+    },
+
+    async getUserById(userId){
+        return await User.findById(userId) || false
+    },
+
+    async listVisitors(){
+        return await User.find({ role: "VISITANTE" }) || false
     }
 
 }
