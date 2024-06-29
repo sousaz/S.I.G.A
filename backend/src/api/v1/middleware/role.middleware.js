@@ -25,4 +25,10 @@ module.exports = {
         const userRole = await userService.getRoleById(token.payload.userId);
         return userRole.role === 'ADMIN' ? next() : res.status(403).json({ message: 'Você não tem permissão para acessar essa rota' });
     },
+
+    async isGuardHouse(req, res, next){
+        const token = jwt.decode(req.token);
+        const userRole = await userService.getRoleById(token.payload.userId);
+        return userRole.role === 'SEGURANCA' ? next() : res.status(403).json({ message: 'Você não tem permissão para acessar essa rota' });
+    }
 }
