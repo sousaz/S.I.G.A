@@ -33,6 +33,8 @@ module.exports = {
 
     async getToken(req, res){
         const { userId } = req.body
+        if(!userId)
+            return res.status(400).json({ message: "userId é obrigatório" })
         const user = await guardHouseService.getUserById(userId)
         if(!user)
             return res.status(500).json({ message: "Erro ao buscar usuário" })
