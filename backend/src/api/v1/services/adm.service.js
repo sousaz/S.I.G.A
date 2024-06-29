@@ -23,6 +23,6 @@ module.exports = {
     },
 
     async list() {
-        return await User.find({ role: ["DEGP", "RACI", "GESTAO"] }, { password: 0 });
+        return await User.find({ role: ["DEGP", "RACI", "GESTAO", "SEGURANCA"] }, { password: 0 });
     }
 }
